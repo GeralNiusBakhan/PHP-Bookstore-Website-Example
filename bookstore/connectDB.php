@@ -1,3 +1,12 @@
 <?php
-$pdo=new PDO('mysql:host=localhost;port=3306;dbname=bookstore','root', '');
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "bookstore";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
 ?>

@@ -10,15 +10,15 @@
 <div class="container">
 <center><h1>Login</h1></center>
 <form action="checklogin.php" method="post">
-    Username:<br><input type="text" name="username"/>
+    Username:<br><input type="text" name="username" required />
     <br><br>
-    Password:<br><input type="password" name="pwd" />
+    Password:<br><input type="password" name="pwd" required />
     <br><br>
     <input class="button" type="submit" value="Login"/>
     <input class="button" type="button" name="cancel" value="Cancel" onClick="window.location='index.php';" />
 </form>
 </div>
-<blockquote>
+</blockquote>
 <?php
 if(isset($_GET['errcode'])){
     if($_GET['errcode']==1){
@@ -27,7 +27,6 @@ if(isset($_GET['errcode'])){
         echo '<span style="color: red;">Please login.</span>';
     }
 }
-
 ?>
 </body>
 </html>

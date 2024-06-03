@@ -1,29 +1,29 @@
 <?php
 session_start();
-if(isset($_POST['username'])&&isset($_POST['pwd'])){
-    $username=$_POST['username'];
-    $pwd = $_POST['pwd'];
+include 'connectDB.php';
 
-    include "connectDB.php";
-     
-     $sql="SELECT * FROM Users WHERE UserName=:username AND Password = :pwd;";
-     $stmt = $pdo->prepare($sql);
-    $stmt->execute(array(
-        ':username' => $username,
-        ':pwd' => $pwd       
-     ));
-    
-    if($stmt->rowCount()>0){
-        while ( $row = $stmt->fetch(PDO::FETCH_ASSOC) ) {
-            $_SESSION['id']=$row['UserID'];
-             }
-        
-        header("Location:index.php");
-        
-    }else{
-        echo '<span style="color: red;">Login Fail</span>';
-        header("Location:login.php?errcode=1");
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $username = $_POST['username'];
+    $password = $_POST['pwd'];
+
+    $sql = "SELECT * FROM users WHERE UserName='$username'";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        if (password_verify($password, $row['Password'])) {
+            $_SESSION['userid'] = $row['UserID'];
+            $_SESSION['username'] = $row['UserName'];
+            $_SESSION['role'] = $row['Role'];
+            header("Location: index.php");
+        } else {
+            header("Location: login.php?errcode=1");
+        }
+    } else {
+        header("Location: login.php?errcode=1");
     }
-     
+    $conn->close();
+} else {
+    header("Location: login.php?errcode=2");
 }
 ?>

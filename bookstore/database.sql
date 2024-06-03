@@ -1,9 +1,11 @@
-CREATE DATABASE BookStore;
+-- Create the BookStore database
+CREATE DATABASE IF NOT EXISTS BookStore;
 USE BookStore;
 
+-- Create the Book table
 CREATE TABLE Book(
     BookID varchar(50),
-	BookTitle varchar(200),
+    BookTitle varchar(200),
     ISBN varchar(20),
     Price double(12,2),
     Author varchar(128),
@@ -12,15 +14,18 @@ CREATE TABLE Book(
     PRIMARY KEY (BookID)
 );
 
+-- Create the Users table
 CREATE TABLE Users(
     UserID int not null AUTO_INCREMENT,
     UserName varchar(128),
-    Password varchar(16),
+    Password varchar(255),  -- Changed to 255 to store hashed passwords
+    Role ENUM('admin', 'user') NOT NULL,  -- Added role column
     PRIMARY KEY (UserID)
 );
 
+-- Create the Customer table
 CREATE TABLE Customer (
-	CustomerID int not null AUTO_INCREMENT,
+    CustomerID int not null AUTO_INCREMENT,
     CustomerName varchar(128),
     CustomerPhone varchar(12),
     CustomerIC varchar(14),
@@ -32,8 +37,9 @@ CREATE TABLE Customer (
     CONSTRAINT FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
+-- Create the Order table
 CREATE TABLE `Order`(
-	OrderID int not null AUTO_INCREMENT,
+    OrderID int not null AUTO_INCREMENT,
     CustomerID int,
     BookID varchar(50),
     DatePurchase datetime,
@@ -45,8 +51,9 @@ CREATE TABLE `Order`(
     CONSTRAINT FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
+-- Create the Cart table
 CREATE TABLE Cart(
-	CartID int not null AUTO_INCREMENT,
+    CartID int not null AUTO_INCREMENT,
     CustomerID int,
     BookID varchar(50),
     Price double(12,2),
@@ -58,7 +65,9 @@ CREATE TABLE Cart(
 );
 
 
-INSERT INTO `book`(`BookID`, `BookTitle`, `ISBN`, `Price`, `Author`, `Type`, `Image`) VALUES ('B-001','Lonely Planet Australia (Travel Guide)','123-456-789-1',136,'Lonely Planet','Travel','image/travel.jpg');
-INSERT INTO `book`(`BookID`, `BookTitle`, `ISBN`, `Price`, `Author`, `Type`, `Image`) VALUES ('B-002','Crew Resource Management, Second Edition','123-456-789-2',599,'Barbara Kanki','Technical','image/technical.jpg');
-INSERT INTO `book`(`BookID`, `BookTitle`, `ISBN`, `Price`, `Author`, `Type`, `Image`) VALUES ('B-003','CCNA Routing and Switching 200-125 Official Cert Guide Library','123-456-789-3',329,'Cisco Press ','Technology','image/technology.jpg');
-INSERT INTO `book`(`BookID`, `BookTitle`, `ISBN`, `Price`, `Author`, `Type`, `Image`) VALUES ('B-004','Easy Vegetarian Slow Cooker Cookbook','123-456-789-4',75.9,'Rockridge Press','Food','image/food.jpg');
+-- Insert initial data into the Book table
+INSERT INTO `Book`(`BookID`, `BookTitle`, `ISBN`, `Price`, `Author`, `Type`, `Image`) VALUES 
+('B-001', 'Lonely Planet Australia (Travel Guide)', '123-456-789-1', 136, 'Lonely Planet', 'Travel', 'image/travel.jpg'),
+('B-002', 'Crew Resource Management, Second Edition', '123-456-789-2', 599, 'Barbara Kanki', 'Technical', 'image/technical.jpg'),
+('B-003', 'CCNA Routing and Switching 200-125 Official Cert Guide Library', '123-456-789-3', 329, 'Cisco Press', 'Technology', 'image/technology.jpg'),
+('B-004', 'Easy Vegetarian Slow Cooker Cookbook', '123-456-789-4', 75.9, 'Rockridge Press', 'Food', 'image/food.jpg');
