@@ -154,11 +154,11 @@ $result = $stmt->get_result();
     </tr>
 </table>
 <?php endif; ?>
-</blockquote>
+</blockquote> 
 
 </body>
 </html>
 <?php
-$stmt->close();
+$stmt->close(); // tes biar commit
 $conn->close();
 ?>
